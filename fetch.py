@@ -18,14 +18,15 @@ from pathlib import Path
 
 import requests
 
-URL = ("https://data.weather.gov.hk/weatherAPI/opendata/opendata.php"
-       "?dataType=CLMTEMP&rformat=csv&station=HKO&year=2026")      # CHANGE ME
-FILE = "hko-daily-mean-temperature-2026.csv"                          # CHANGE ME: say what it is,
-                                                                      # keep the publisher's extension
+URL = ("https://www.seismicportal.eu/fdsnws/event/1/query?format=json&starttime=2026-09-01&endtime=2026-09-30&minmag=2.5"
+       )      # CHANGE ME
+FILE = "quakes_september.geojson"                          # CHANGE ME: say what it is,
+                                                             # keep the publisher's extension
 HERE = Path(__file__).parent
 DATA = HERE / "data"
 
 
+#def fetch(url, path):
 def fetch(url, path):
     """Ask for the file once. If it is already in data/, do nothing."""
     if path.exists():
@@ -34,7 +35,7 @@ def fetch(url, path):
         return path
     DATA.mkdir(exist_ok=True)
     print(f"asking {url}")
-    reply = requests.get(url, timeout=60, headers={"User-Agent": "SD5913 PolyU student"})
+    reply = requests.get(url, timeout=60, headers={"User-Agent": "SD5913 PolyU/1.0"})
     reply.raise_for_status()
     path.write_bytes(reply.content)      # the raw reply, byte for byte: what arrived is what gets committed
     print(f"saved data/{path.name} ({path.stat().st_size // 1024} KB). Now: git add data")
