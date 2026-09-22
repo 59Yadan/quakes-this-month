@@ -61,6 +61,5 @@ def main():
     print(f"saved out/{PICTURE}")
 
 
-
 if __name__ == "__main__":
     main()
