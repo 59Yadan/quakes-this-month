@@ -3,7 +3,7 @@
 # dependencies = ["matplotlib"]
 # ///
 
-"""Plot every earthquake in September 2026: time vs depth."""
+"""Plot every earthquake in September 2026: time vs magnitude."""
 
 import json
 import datetime as dt
@@ -39,18 +39,18 @@ def main():
     quakes = load_quakes(DATA)
     print(f"{DATA.name}: {len(quakes)} quakes")
 
-    times, depths = [], []
+    times, mags = [], []
     for when, mag, depth in quakes:
         times.append(when)
-        depths.append(depth)
-    print(f"{len(depths)} magnitudes, from {min(depths):.1f} to {max(depths):.1f}")
+        mags.append(mag)
+    print(f"{len(mags)} magnitudes, from {min(mags):.1f} to {max(mags):.1f}")
 
     fig, ax = plt.subplots(figsize=(12, 5))
-    ax.scatter(times, depths, s=12, alpha=0.5, color="#3E47C4", edgecolors="none")
+    ax.scatter(times, mags, s=12, alpha=0.5, color="#d6591d", edgecolors="none")
 
     ax.set_xlabel("Time (UTC)")
-    ax.set_ylabel("Depth")
-    ax.set_title(f"Earthquakes in September 2026 (n={len(depths)})")
+    ax.set_ylabel("Magnitude")
+    ax.set_title(f"Earthquakes in September 2026 (n={len(mags)})")
     ax.grid(alpha=0.3)
 
     fig.autofmt_xdate()
