@@ -3,7 +3,7 @@
 # dependencies = ["matplotlib"]
 # ///
 
-"""Plot every earthquake in September 2026: time vs magnitude."""
+"""Plot every earthquake in September 2026: time vs magnitude, coloured by depth."""
 
 import json
 import datetime as dt
@@ -39,19 +39,28 @@ def main():
     quakes = load_quakes(DATA)
     print(f"{DATA.name}: {len(quakes)} quakes")
 
-    times, mags = [], []
+    times, mags, depths = [], [], []          
     for when, mag, depth in quakes:
         times.append(when)
         mags.append(mag)
+        depths.append(depth)                  
     print(f"{len(mags)} magnitudes, from {min(mags):.1f} to {max(mags):.1f}")
+    print(f"depths from {min(depths):.0f} km to {max(depths):.0f} km")
 
     fig, ax = plt.subplots(figsize=(12, 5))
-    ax.scatter(times, mags, s=12, alpha=0.5, color="#d6591d", edgecolors="none")
+    scatter = ax.scatter(                    
+        times, mags,
+        c=depths, cmap="viridis_r",         
+        s=12, alpha=0.6, edgecolors="none",
+    )
 
     ax.set_xlabel("Time (UTC)")
     ax.set_ylabel("Magnitude")
     ax.set_title(f"Earthquakes in September 2026 (n={len(mags)})")
     ax.grid(alpha=0.3)
+
+    cbar = fig.colorbar(scatter, ax=ax, shrink=1)      
+    cbar.set_label("Depth (km)")
 
     fig.autofmt_xdate()
     fig.tight_layout()
@@ -59,6 +68,7 @@ def main():
     OUT.mkdir(exist_ok=True)
     fig.savefig(OUT / PICTURE, dpi=150)
     print(f"saved out/{PICTURE}")
+    plt.show()
 
 
 if __name__ == "__main__":
