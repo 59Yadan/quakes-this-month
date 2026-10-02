@@ -57,7 +57,7 @@ def main():
 
     ax.set_xlabel("Time (UTC)")
     ax.set_ylabel("Magnitude")
-    ax.set_title(f"Earthquakes in September 2026 (n={len(mags)})")
+    ax.set_title(f"Earthquakes M2.5+, 1–19 September 2026 (n={len(mags)})")
     ax.grid(alpha=0.3)
 
     cbar = fig.colorbar(scatter, ax=ax, shrink=1)
